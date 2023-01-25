@@ -9,4 +9,8 @@ parameters:
     level: 0
 
     ignoreErrors:
-        - '#Static call to instance method .*?::dispatch(Now)?\(\)\.#'
+        - '#^Global helper function ''base_path'' should not be used\.#'
+        - '#^Illuminate\\Support\\Facades\\RateLimiter facade should not be used\.$#'
+        - '#^Illuminate\\Support\\Facades\\Route facade should not be used\.$#'
+        - '#^Illuminate\\Support\\Facades\\Auth facade should not be used\.$#'
+        - '#^Illuminate\\Support\\Facades\\Broadcast facade should not be used\.$#'
