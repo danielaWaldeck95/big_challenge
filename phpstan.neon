@@ -13,4 +13,5 @@ parameters:
         - '#^Illuminate\\Support\\Facades\\RateLimiter facade should not be used\.$#'
         - '#^Illuminate\\Support\\Facades\\Route facade should not be used\.$#'
         - '#^Illuminate\\Support\\Facades\\Auth facade should not be used\.$#'
+        - '#^Illuminate\\Support\\Facades\\Hash facade should not be used\.$#'
         - '#^Illuminate\\Support\\Facades\\Broadcast facade should not be used\.$#'
