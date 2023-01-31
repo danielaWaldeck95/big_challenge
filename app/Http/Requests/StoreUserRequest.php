@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\UserTypes;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,13 +23,13 @@ class StoreUserRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'name' => 'required|min:2',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'user_type' => 'required|in:Doctor,Patient'
+            'name' => ['required', 'min:2'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'min:6', 'confirmed'],
+            'user_type' => ['required', new Enum(UserTypes::class)]
         ];
     }
 }

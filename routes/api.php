@@ -16,7 +16,7 @@ use App\Http\Controllers\RegisterUser;
 */
 
 
-Route::post('/signup', RegisterUser::class);
+Route::post('/signup', RegisterUser::class)->name('signup');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
