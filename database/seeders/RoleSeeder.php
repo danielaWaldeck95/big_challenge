@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserTypes;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RoleAndPermissionSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +16,7 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run()
     {
-        $doctorRole = Role::create(['name' => 'Doctor']);
-        $patientRole = Role::create(['name' => 'Patient']);
+        $doctorRole = Role::create(['name' => UserTypes::DOCTOR]);
+        $patientRole = Role::create(['name' => UserTypes::PATIENT]);
     }
 }
