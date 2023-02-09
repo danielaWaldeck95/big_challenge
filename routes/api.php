@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterUser;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Auth\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,13 @@ use App\Http\Controllers\RegisterUser;
 Route::post('/signup', RegisterUser::class)->name('signup');
 Route::post('/login', LoginController::class)->name('login');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user', function (Request $request) { return $request->user(); });
+    Route::post('/logout', LogoutController::class)->name('logout');
 });
+
+Route::any('{any}', function(){
+    return response()->json([
+    	'status' => 'error',
+        'message' => 'Resource not found'], Response::HTTP_NOT_FOUND);
+})->where('any', '.*');
