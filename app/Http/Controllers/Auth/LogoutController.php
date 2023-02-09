@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 class LogoutController
 {
@@ -17,9 +17,9 @@ class LogoutController
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
-        $user = Auth::user();
+        $user =$request->user();
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
 
         return response()->json('Successfully logged out', Response::HTTP_OK);
