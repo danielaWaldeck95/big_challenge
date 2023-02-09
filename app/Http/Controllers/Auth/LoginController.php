@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\LoginRequest;
-use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController
 {
@@ -18,15 +18,14 @@ class LoginController
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(LoginRequest $request): Response|string
+    public function __invoke(LoginRequest $request): JsonResponse
     {
-        $validated = $request->validated();
-        $user = User::where('email', $validated['email'])->first();
-
-        if (! $user || ! Hash::check($validated['password'], $user->password)) {
-            return response('Login invalid', Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+        if (! Auth::attempt($request->validated())) {
+            return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
 
-        return $user->createToken('auth-user-token')->plainTextToken;
+        $token = Auth::user()->createToken('auth-user-token')->plainTextToken;
+
+        return response()->json($token, Response::HTTP_OK);
     }
 }

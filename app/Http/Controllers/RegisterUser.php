@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
-use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class RegisterUser
@@ -17,12 +17,12 @@ class RegisterUser
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(StoreUserRequest $request): Response|ResponseFactory
+    public function __invoke(StoreUserRequest $request): JsonResponse
     {
         $user = User::create($request->validated());
 
         $user->assignRole($request['user_type']);
 
-        return response('User registered successfully', Response::HTTP_OK);
+        return response()->json('User registered successfully', Response::HTTP_OK);
     }
 }
