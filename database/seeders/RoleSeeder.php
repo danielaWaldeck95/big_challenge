@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $doctorRole = Role::create(['name' => UserTypes::DOCTOR]);
-        $patientRole = Role::create(['name' => UserTypes::PATIENT]);
+        Role::findOrCreate(UserTypes::DOCTOR->value);
+        Role::findOrCreate(UserTypes::PATIENT->value);
     }
 }
