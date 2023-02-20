@@ -6,7 +6,7 @@ use App\Http\Requests\UpdatePatientRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
-class UpdatePatient extends Controller
+class UpdatePatient
 {
     /**
      * Handle the incoming request.

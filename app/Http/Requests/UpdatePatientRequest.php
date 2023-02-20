@@ -14,7 +14,7 @@ class UpdatePatientRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->can('update personal information');
+        return $this->user()->can('update personal information');
     }
 
     /**
