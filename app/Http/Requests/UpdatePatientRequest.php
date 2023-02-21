@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePatientRequest extends FormRequest
@@ -28,7 +27,7 @@ class UpdatePatientRequest extends FormRequest
             'phone' => ['required', 'min:9'],
             'weight' => ['required'],
             'height' => ['required'],
-            'other_information' => ['sometimes', 'nullable','min:2', 'max:500']
+            'other_information' => ['sometimes', 'nullable', 'min:2', 'max:500']
         ];
     }
 }

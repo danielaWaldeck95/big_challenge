@@ -13,13 +13,12 @@ class LogoutController
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $user =$request->user();
+        $user = $request->user();
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
 
         return response()->json('Successfully logged out', Response::HTTP_OK);

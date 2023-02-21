@@ -1,60 +1,26 @@
 <?php
 
-use App\Enums\UserTypes;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 uses(RefreshDatabase::class);
 
-const password = 'password';
-
-beforeEach(function () {
-    $doctorRole = Role::create(['name' => UserTypes::DOCTOR]);
-    $patientRole = Role::create(['name' => UserTypes::PATIENT]);
-
-    Permission::create(['name' => 'update personal information']);
-
-    $patientRole->givePermissionTo('update personal information');
-
-    $doctor = User::create([
-        'name' => 'doctor',
-        'email' => 'doctor@test.com',
-        'password' => password
-    ]);
-
-    $doctor->assignRole(UserTypes::DOCTOR->value);
-
-    $patient = User::create([
-        'name' => 'patient',
-        'email' => 'patient@test.com',
-        'password' => password
-    ]);
-
-    $patient->assignRole(UserTypes::PATIENT->value);
-});
-
-
 it('does not update a patient if it is not logged in', function () {
-    $response = $this->putJson('api/update', []);
-    $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+    $response = $this->putJson(route('patient.update'), []);
+    $response->assertUnauthorized();
 });
 
 it('does not update a user if it is not a patient', function () {
+    $user = User::newFactory()->doctor()->create();
+    $this->actingAs($user);
 
-
-    $this->postJson('api/login', ['email' => 'doctor@test.com', 'password' => password]);
-
-    $response = $this->putJson('api/update', []);
-    $response->assertStatus(Response::HTTP_FORBIDDEN);
+    $response = $this->putJson(route('patient.update'), []);
+    $response->assertForbidden();
 });
 
 it('must include height value on update', function () {
-
-
-    $this->postJson('api/login', ['email' => 'patient@test.com', 'password' => password]);
+    $user = User::newFactory()->patient()->create();
+    $this->actingAs($user);
 
     $updatePatient = [
         'phone' => '123456789',
@@ -62,14 +28,13 @@ it('must include height value on update', function () {
         'other_information' => 'other information'
     ];
 
-    $response = $this->putJson('api/update', $updatePatient);
-    $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    $response = $this->putJson(route('patient.update'), $updatePatient);
+    $response->assertUnprocessable();
 });
 
 it('must include weight value on update', function () {
-
-
-    $this->postJson('api/login', ['email' => 'patient@test.com', 'password' => password]);
+    $user = User::newFactory()->patient()->create();
+    $this->actingAs($user);
 
     $updatePatient = [
         'phone' => '123456789',
@@ -77,14 +42,13 @@ it('must include weight value on update', function () {
         'other_information' => 'other information'
     ];
 
-    $response = $this->putJson('api/update', $updatePatient);
-    $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    $response = $this->putJson(route('patient.update'), $updatePatient);
+    $response->assertUnprocessable();
 });
 
 it('must include phone value on update', function () {
-
-
-    $this->postJson('api/login', ['email' => 'patient@test.com', 'password' => password]);
+    $user = User::newFactory()->patient()->create();
+    $this->actingAs($user);
 
     $updatePatient = [
         'weight' => 65,
@@ -92,12 +56,13 @@ it('must include phone value on update', function () {
         'other_information' => 'other information'
     ];
 
-    $response = $this->putJson('api/update', $updatePatient);
-    $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    $response = $this->putJson(route('patient.update'), $updatePatient);
+    $response->assertUnprocessable();
 });
 
 it('can update patient information without other information field', function () {
-    $this->postJson('api/login', ['email' => 'patient@test.com', 'password' => password]);
+    $user = User::newFactory()->patient()->create();
+    $this->actingAs($user);
 
     $updatePatient = [
         'phone' => '123456789',
@@ -106,12 +71,13 @@ it('can update patient information without other information field', function ()
     ];
 
     $response = $this->putJson('/api/update', $updatePatient);
-    $response->assertStatus(Response::HTTP_OK);
+    $response->assertSuccessful();
     $this->assertDatabaseHas('users', $updatePatient);
 });
 
 it('can update patient information', function () {
-    $this->postJson('api/login', ['email' => 'patient@test.com', 'password' => password]);
+    $user = User::newFactory()->patient()->create();
+    $this->actingAs($user);
 
     $updatePatient = [
         'phone' => '123456789',
@@ -120,7 +86,7 @@ it('can update patient information', function () {
         'other_information' => 'other information'
     ];
 
-    $response = $this->putJson('/api/update', $updatePatient);
-    $response->assertStatus(Response::HTTP_OK);
+    $response = $this->putJson(route('patient.update'), $updatePatient);
+    $response->assertSuccessful();
     $this->assertDatabaseHas('users', $updatePatient);
 });
