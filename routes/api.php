@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterUser;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\UpdatePatient;
+use App\Http\Controllers\StoreSubmission;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,5 +26,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) { return $request->user(); });
     Route::post('/logout', LogoutController::class)->name('logout');
 
+    Route::post('/submission', StoreSubmission::class)->name('submission');
     Route::put('/update', UpdatePatient::class)->name('patient.update');
 });

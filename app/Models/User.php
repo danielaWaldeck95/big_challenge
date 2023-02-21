@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\UserTypes;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -61,7 +63,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        // 'password',
+        'password',
         'remember_token',
     ];
 
@@ -84,5 +86,14 @@ class User extends Authenticatable
     public static function newFactory(): Factory
     {
         return UserFactory::new();
+    }
+
+    /**
+     * @return HasMany<Submission>
+     */
+    public function submissions(): HasMany
+    {
+        $foreingId = $this->hasRole(UserTypes::PATIENT->value) ? 'patient_id' : 'doctor_id';
+        return $this->hasMany(Submission::class, $foreingId);
     }
 }
