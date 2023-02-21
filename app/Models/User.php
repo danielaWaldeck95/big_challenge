@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -47,6 +49,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'height',
+        'weight',
+        'other_information'
     ];
 
     /**
@@ -73,5 +79,10 @@ class User extends Authenticatable
         return Attribute::make(
             set: fn ($value) => Hash::make($value)
         );
+    }
+
+    public static function newFactory(): Factory
+    {
+        return UserFactory::new();
     }
 }

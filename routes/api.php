@@ -4,9 +4,8 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterUser;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Auth\LogoutController;
-
+use App\Http\Controllers\UpdatePatient;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,4 +24,6 @@ Route::post('/login', LoginController::class)->name('login');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) { return $request->user(); });
     Route::post('/logout', LogoutController::class)->name('logout');
+
+    Route::put('/update', UpdatePatient::class)->name('patient.update');
 });
