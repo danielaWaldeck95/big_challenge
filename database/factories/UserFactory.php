@@ -40,7 +40,7 @@ class UserFactory extends Factory
                 'weight' => 179,
                 'other_information' => 'other information'
             ];
-            $user->update([$patientInformation]);
+            $user->update($patientInformation);
         });
     }
 
