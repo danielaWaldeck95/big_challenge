@@ -18,6 +18,7 @@ class PermissionSeeder extends Seeder
     {
         $permissions = [
             'update personal information',
+            'create submissions'
         ];
 
         foreach ($permissions as $permission) {
@@ -27,6 +28,7 @@ class PermissionSeeder extends Seeder
         }
         $patientRole = Role::findByName(UserTypes::PATIENT->value);
         $patientRole->givePermissionTo('update personal information');
+        $patientRole->givePermissionTo('create submissions');
 
     }
 }

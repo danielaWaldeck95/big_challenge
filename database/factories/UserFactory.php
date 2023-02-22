@@ -52,6 +52,9 @@ class UserFactory extends Factory
             Permission::findOrCreate('update personal information');
             $patientRole->givePermissionTo('update personal information');
 
+            Permission::findOrCreate('create submissions');
+            $patientRole->givePermissionTo('create submissions');
+
             $user->assignRole(UserTypes::PATIENT->value);
         });
     }
