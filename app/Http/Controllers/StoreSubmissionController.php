@@ -8,7 +8,7 @@ use App\Http\Requests\StoreSubmissionRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
-class StoreSubmission
+class StoreSubmissionController
 {
     /**
      * Handle the incoming request.

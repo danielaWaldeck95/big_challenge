@@ -3,11 +3,11 @@
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisterUser;
+use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\UpdatePatient;
-use App\Http\Controllers\StoreSubmission;
-use App\Http\Controllers\IndexSubmissions;
+use App\Http\Controllers\UpdatePatientController;
+use App\Http\Controllers\StoreSubmissionController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,7 +20,7 @@ use App\Http\Controllers\IndexSubmissions;
 */
 
 
-Route::post('/signup', RegisterUser::class)->name('signup');
+Route::post('/signup', RegisterUserController::class)->name('signup');
 Route::post('/login', LoginController::class)->name('login');
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -28,7 +28,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', LogoutController::class)->name('logout');
 
 
-    Route::get('/submissions', IndexSubmissions::class)->name('patient.submissions.index');
-    Route::post('/submission', StoreSubmission::class)->name('submission');
-    Route::put('/update', UpdatePatient::class)->name('patient.update');
+    Route::get('/submissions', GetSubmissionsController::class)->name('patient.submissions.index');
+    Route::post('/submission', StoreSubmissionController::class)->name('submission');
+    Route::put('/update', UpdatePatientController::class)->name('patient.update');
 });

@@ -8,7 +8,7 @@ use App\Http\Requests\UpdatePatientRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
-class UpdatePatient
+class UpdatePatientController
 {
     /**
      * Handle the incoming request.

@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class IndexSubmissions
+class GetSubmissionsController
 {
     /**
      * Handle the incoming request.

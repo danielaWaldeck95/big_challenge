@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
-class RegisterUser
+class RegisterUserController
 {
     /**
      * Handle the incoming request.
