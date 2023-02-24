@@ -29,7 +29,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', LogoutController::class)->name('logout');
 
 
-    Route::get('/submissions', GetSubmissionsController::class)->name('patient.submissions.index');
+    Route::get('/submissions', GetSubmissionsController::class)->name('submissions.index');
     Route::post('/submission', StoreSubmissionController::class)->name('submission');
     Route::put('/update', UpdatePatientController::class)->name('patient.update');
 });

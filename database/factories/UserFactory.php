@@ -31,6 +31,11 @@ class UserFactory extends Factory
         ];
     }
 
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return static
+     */
     public function patientInformation()
     {
         return $this->afterCreating(function (User $user) {
@@ -44,6 +49,11 @@ class UserFactory extends Factory
         });
     }
 
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return static
+     */
     public function patient()
     {
         return $this->afterCreating(function (User $user) {
@@ -59,6 +69,11 @@ class UserFactory extends Factory
         });
     }
 
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return static
+     */
     public function doctor()
     {
         return $this->afterCreating(function (User $user) {

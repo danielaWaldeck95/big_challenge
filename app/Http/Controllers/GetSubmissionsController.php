@@ -21,6 +21,6 @@ class GetSubmissionsController
     {
         $submissions = $request->user()->submissions()->paginate();
 
-        return response()->json($submissions, Response::HTTP_OK);
+        return response()->json($submissions);
     }
 }
