@@ -31,7 +31,7 @@ class UserFactory extends Factory
         ];
     }
 
-    public function WithInformation()
+    public function patientInformation()
     {
         return $this->afterCreating(function (User $user) {
             $patientInformation = [

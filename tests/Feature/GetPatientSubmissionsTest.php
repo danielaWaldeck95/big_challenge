@@ -13,18 +13,17 @@ it('cannot get submissions if it is not logged in', function () {
 });
 
 test('get my submissions successfully as a patient', function () {
-    $user = User::newFactory()->patient()->withInformation()->create();
+    $user = User::newFactory()->patient()->patientInformation()->create();
     $this->actingAs($user);
 
     Submission::newFactory()
     ->count(totalSubmissionsNumber)
     ->state(new Sequence(
         ['patient_id' => $user->id],
-        ['patient_id' => User::newFactory()->patient()->withInformation()->create()],
+        ['patient_id' => User::newFactory()->patient()->patientInformation()->create()],
     ))
     ->create();
 
     $response = $this->getJson(route('patient.submissions.index'));
-    $response->assertSuccessful();
-    $this->assertEquals(count($response['submissions']), totalSubmissionsNumber/2);
+    $response->assertSuccessful()->assertJsonCount(totalSubmissionsNumber/2, 'data');
 });

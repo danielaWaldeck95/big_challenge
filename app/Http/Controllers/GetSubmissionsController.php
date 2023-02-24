@@ -19,13 +19,8 @@ class GetSubmissionsController
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $submissions = $request->user()->submissions()->get();
+        $submissions = $request->user()->submissions()->paginate();
 
-        $response = [
-            'submissions' => $submissions,
-            'message' => 'Submissions retrieved successfully'
-        ];
-
-        return response()->json($response, Response::HTTP_OK);
+        return response()->json($submissions, Response::HTTP_OK);
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\UpdatePatientController;
 use App\Http\Controllers\StoreSubmissionController;
+use App\Http\Controllers\GetSubmissionsController;
 
 /*
 |--------------------------------------------------------------------------
