@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 const totalSubmissionsNumber = 6;
 it('cannot get submissions if it is not logged in', function () {
-    $response = $this->getJson(route('patient.submissions.index'), []);
+    $response = $this->getJson(route('submissions.index'), []);
     $response->assertUnauthorized();
 });
 
@@ -24,6 +24,6 @@ test('get my submissions successfully as a patient', function () {
     ))
     ->create();
 
-    $response = $this->getJson(route('patient.submissions.index'));
+    $response = $this->getJson(route('submissions.index'));
     $response->assertSuccessful()->assertJsonCount(totalSubmissionsNumber/2, 'data');
 });

@@ -20,7 +20,7 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => fake()->name(),
@@ -36,7 +36,7 @@ class UserFactory extends Factory
      *
      * @return static
      */
-    public function patientInformation()
+    public function patientInformation(): static
     {
         return $this->afterCreating(function (User $user) {
             $patientInformation = [
@@ -54,7 +54,7 @@ class UserFactory extends Factory
      *
      * @return static
      */
-    public function patient()
+    public function patient(): static
     {
         return $this->afterCreating(function (User $user) {
             $patientRole = Role::findOrCreate(UserTypes::PATIENT->value);
@@ -74,7 +74,7 @@ class UserFactory extends Factory
      *
      * @return static
      */
-    public function doctor()
+    public function doctor(): static
     {
         return $this->afterCreating(function (User $user) {
                 Role::findOrCreate(UserTypes::DOCTOR->value);
