@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdatePatientRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class UpdatePatient
+class GetSubmissionsController
 {
     /**
      * Handle the incoming request.
@@ -17,9 +17,10 @@ class UpdatePatient
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(UpdatePatientRequest $request): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
-        $request->user()->update($request->validated());
-        return response()->json(['message'=>'Patient updated successfully'], Response::HTTP_OK);
+        $submissions = $request->user()->submissions()->paginate();
+
+        return response()->json($submissions);
     }
 }

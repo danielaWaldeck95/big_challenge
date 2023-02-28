@@ -3,10 +3,12 @@
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisterUser;
+use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\UpdatePatient;
-use App\Http\Controllers\StoreSubmission;
+use App\Http\Controllers\UpdatePatientController;
+use App\Http\Controllers\StoreSubmissionController;
+use App\Http\Controllers\GetSubmissionsController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,13 +21,15 @@ use App\Http\Controllers\StoreSubmission;
 */
 
 
-Route::post('/signup', RegisterUser::class)->name('signup');
+Route::post('/signup', RegisterUserController::class)->name('signup');
 Route::post('/login', LoginController::class)->name('login');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) { return $request->user(); });
     Route::post('/logout', LogoutController::class)->name('logout');
 
-    Route::post('/submission', StoreSubmission::class)->name('submission');
-    Route::put('/update', UpdatePatient::class)->name('patient.update');
+
+    Route::get('/submissions', GetSubmissionsController::class)->name('submissions.index');
+    Route::post('/submission', StoreSubmissionController::class)->name('submission');
+    Route::put('/update', UpdatePatientController::class)->name('patient.update');
 });
