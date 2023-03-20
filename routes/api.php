@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\UpdatePatientController;
 use App\Http\Controllers\StoreSubmissionController;
 use App\Http\Controllers\GetSubmissionsController;
+use App\Http\Controllers\GetOneSubmissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/submissions', GetSubmissionsController::class)->name('submissions.index');
     Route::post('/submission', StoreSubmissionController::class)->name('submission');
     Route::put('/update', UpdatePatientController::class)->name('patient.update');
+
+    Route::get('submissions/{submission}', GetOneSubmissionController::class)->name('submission.show');
 });
