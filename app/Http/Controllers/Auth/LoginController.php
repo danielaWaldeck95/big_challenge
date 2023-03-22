@@ -25,7 +25,11 @@ class LoginController
         }
 
         $token = Auth::user()->createToken('auth-user-token')->plainTextToken;
+        $response = [
+            'message' => 'Successful login',
+            'token' => $token
+        ];
 
-        return response()->json($token, Response::HTTP_OK);
+        return response()->json($response);
     }
 }
