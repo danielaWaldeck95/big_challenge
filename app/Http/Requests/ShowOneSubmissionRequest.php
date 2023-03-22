@@ -15,10 +15,13 @@ class ShowOneSubmissionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $isPatient = $this->user()->hasRole(UserTypes::PATIENT->value);
-        $belongsToPatient = $this->submission->patient_id === $this->user()->id;
+        $isDoctor = $this->user()->hasRole(UserTypes::DOCTOR->value);
 
-        return ($isPatient && $belongsToPatient);
+        if ($isDoctor) {
+            return true;
+        }
+
+        return $this->submission->patient_id === $this->user()->id;
     }
 
     /**
@@ -29,12 +32,6 @@ class ShowOneSubmissionRequest extends FormRequest
     public function rules(): array
     {
         return [];
-    }
-
-    protected function failedAuthorization()
-    {
-        throw new AuthorizationException('This action is unauthorized. User must be of type:'
-        . strtolower(UserTypes::PATIENT->value) . ' and owner of this submission');
     }
 }
 
