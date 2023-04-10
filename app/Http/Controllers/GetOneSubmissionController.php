@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\UserTypes;
 use App\Http\Requests\ShowOneSubmissionRequest;
 use App\Models\Submission;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class GetOneSubmissionController
 {

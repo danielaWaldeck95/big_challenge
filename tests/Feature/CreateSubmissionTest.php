@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 it('does not create a submission if it is not logged in', function () {
-    $response = $this->postJson(route('submission'), []);
+    $response = $this->postJson(route('submissions.store'), []);
     $response->assertUnauthorized();
 });
 
@@ -14,7 +14,7 @@ it('does not create a submission if logged user is not patient', function () {
     $user = User::newFactory()->doctor()->create();
     $this->actingAs($user);
 
-    $response = $this->postJson(route('submission'), []);
+    $response = $this->postJson(route('submissions.store'), []);
     $response->assertForbidden();
 });
 
@@ -26,7 +26,7 @@ it('must include title value', function () {
         'symptoms' => 'my symptoms'
     ];
 
-    $response = $this->postJson(route('submission'), $data);
+    $response = $this->postJson(route('submissions.store'), $data);
     $response->assertUnprocessable();
 });
 
@@ -38,7 +38,7 @@ it('must include symptoms value', function () {
         'title' => 'my title'
     ];
 
-    $response = $this->postJson(route('submission'), $data);
+    $response = $this->postJson(route('submissions.store'), $data);
     $response->assertUnprocessable();
 });
 
@@ -51,7 +51,7 @@ it('can create a submission', function () {
         'symptoms' => 'other symptoms'
     ];
 
-    $response = $this->postJson(route('submission'), $data);
+    $response = $this->postJson(route('submissions.store'), $data);
     $response->assertSuccessful();
     $this->assertDatabaseHas('submissions', $data);
 });

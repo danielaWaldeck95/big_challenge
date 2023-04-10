@@ -25,5 +25,5 @@ test('get my submissions successfully as a patient', function () {
     ->create();
 
     $response = $this->getJson(route('submissions.index'));
-    $response->assertSuccessful()->assertJsonCount(totalSubmissionsNumber/2, 'data');
+    $response->assertSuccessful()->assertJsonCount(totalSubmissionsNumber / 2, 'data');
 });
