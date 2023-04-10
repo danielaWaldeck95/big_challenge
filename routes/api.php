@@ -28,11 +28,12 @@ Route::post('/login', LoginController::class)->name('login');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) { return $request->user(); });
     Route::post('/logout', LogoutController::class)->name('logout');
-
-
-    Route::get('/submissions', GetSubmissionsController::class)->name('submissions.index');
-    Route::post('/submission', StoreSubmissionController::class)->name('submission');
+    Route::prefix('/submissions')->group(function () {
+        Route::post('/', StoreSubmissionController::class)->name('submissions.store');
+        Route::get('/', GetSubmissionsController::class)->name('submissions.index');
+        Route::prefix('/{submission}')->group(function () {
+            Route::get('/', GetOneSubmissionController::class)->name('submissions.show');
+        });
+});
     Route::put('/update', UpdatePatientController::class)->name('patient.update');
-
-    Route::get('submissions/{submission}', GetOneSubmissionController::class)->name('submission.show');
 });
