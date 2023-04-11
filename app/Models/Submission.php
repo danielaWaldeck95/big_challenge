@@ -21,7 +21,8 @@ class Submission extends Model
         'title',
         'symptoms',
         'patient_id',
-        'doctor_id'
+        'doctor_id',
+        'status'
     ];
 
     /**

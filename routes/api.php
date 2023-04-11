@@ -9,6 +9,7 @@ use App\Http\Controllers\UpdatePatientController;
 use App\Http\Controllers\StoreSubmissionController;
 use App\Http\Controllers\GetSubmissionsController;
 use App\Http\Controllers\GetOneSubmissionController;
+use App\Http\Controllers\AcceptSubmissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', GetSubmissionsController::class)->name('submissions.index');
         Route::prefix('/{submission}')->group(function () {
             Route::get('/', GetOneSubmissionController::class)->name('submissions.show');
+            Route::put('/', AcceptSubmissionController::class)->name('submissions.accept');
         });
 });
     Route::put('/update', UpdatePatientController::class)->name('patient.update');
