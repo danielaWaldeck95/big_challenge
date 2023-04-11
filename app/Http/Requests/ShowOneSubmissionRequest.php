@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Enums\UserTypes;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShowOneSubmissionRequest extends FormRequest
@@ -34,4 +33,3 @@ class ShowOneSubmissionRequest extends FormRequest
         return [];
     }
 }
-
