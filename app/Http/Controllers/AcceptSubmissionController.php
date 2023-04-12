@@ -5,26 +5,25 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\SubmissionStatuses;
-use App\Http\Requests\AcceptSubmissionRequest;
 use App\Models\Submission;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class AcceptSubmissionController
 {
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(AcceptSubmissionRequest $request, Submission $submission): JsonResponse
+    public function __invoke(Request $request, Submission $pendingSubmission): JsonResponse
     {
-        $submission->update([
+        $pendingSubmission->update([
             'doctor_id' => $request->user()->id,
             'status' => SubmissionStatuses::InProgress
         ]);
-        return response()->json('Doctor accepted the submission successfully', Response::HTTP_OK);
+
+        return response()->json('Submission accepted successfully');
     }
 }
