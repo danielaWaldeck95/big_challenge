@@ -38,18 +38,6 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
-        Route::bind('pendingSubmission', function (string $value) {
-            $submission = Submission::whereNull('doctor_id')->find($value);
-
-            if (! $submission) {
-                throw new HttpException(
-                    Response::HTTP_FORBIDDEN,
-                    'This submission already has an assigned doctor'
-                );
-            }
-
-            return $submission;
-        });
     }
 
     /**

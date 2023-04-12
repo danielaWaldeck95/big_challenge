@@ -35,9 +35,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', GetSubmissionsController::class)->name('submissions.index');
         Route::prefix('/{submission}')->group(function () {
             Route::get('/', GetOneSubmissionController::class)->name('submissions.show');
-        });
-        Route::group(['middleware' => ['role:' . UserTypes::DOCTOR->value]], function () {
-            Route::post('{pendingSubmission}/accept', AcceptSubmissionController::class)->name('submissions.accept');
+            Route::group(['middleware' => ['role:' . UserTypes::DOCTOR->value]], function () {
+                Route::post('/accept', AcceptSubmissionController::class)->name('submissions.accept');
+            });
         });
 });
     Route::put('/update', UpdatePatientController::class)->name('patient.update');
