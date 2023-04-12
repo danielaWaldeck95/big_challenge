@@ -4,51 +4,52 @@ use App\Enums\SubmissionStatuses;
 use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 
 uses(RefreshDatabase::class);
 
-test('not able to accept submission if not logged user', function () {
-    $patient = User::newFactory()->patient()->patientInformation()->create();
-    $submission = Submission::newFactory()->create(['patient_id' => $patient->id]);
+dataset('invalid-users', [
+    ['patient', Response::HTTP_FORBIDDEN],
+    [null, Response::HTTP_UNAUTHORIZED],
+]);
 
-    $response = $this->putJson(route('submissions.accept', $submission->id), []);
-    $response->assertUnauthorized();
+beforeEach(function () {
+    $this->patient = User::newFactory()->patient()->patientInformation()->create();
+    $this->doctor = User::newFactory()->doctor()->create();
+    $this->pendingSubmission = Submission::newFactory()->create(['patient_id' => $this->patient->id]);
+    $this->inProgressSubmission = Submission::newFactory()->create([
+        'patient_id' => $this->patient->id,
+        'doctor_id' => $this->doctor->id
+    ]);
 });
 
-test('not able to accept submission if it is not a doctor', function () {
-    $patient = User::newFactory()->patient()->patientInformation()->create();
-    $submission = Submission::newFactory()->create(['patient_id' => $patient->id]);
+test('it throws an exception when invalid user', function ($userType, $expectedResponse) {
+    if ($userType) {
+        $user = User::newFactory()->{$userType}()->create();
+        $this->actingAs($user);
+    }
 
-    $user = User::newFactory()->patient()->create();
-    $this->actingAs($user);
+    $response = $this->postJson(route('submissions.accept', $this->pendingSubmission->id));
+    $response->assertStatus($expectedResponse);
+})
+->with('invalid-users');
 
-    $response = $this->putJson(route('submissions.accept', $submission->id), []);
-    $response->assertForbidden();
-});
-
-test('not able to accept submission that has already been assigned', function () {
-    $patient = User::newFactory()->patient()->patientInformation()->create();
-    $doctor = User::newFactory()->doctor()->create();
-
-    $submission = Submission::newFactory()->create(['patient_id' => $patient->id, 'doctor_id' => $doctor->id]);
-
+test('it throws and exception when the submission already has a doctor assigned', function () {
     $user = User::newFactory()->doctor()->create();
     $this->actingAs($user);
 
-    $response = $this->putJson(route('submissions.accept', $submission->id), []);
+    $response = $this->postJson(route('submissions.accept', $this->inProgressSubmission->id));
     $response->assertForbidden();
 });
 
-test('accept submission successfully as a doctor', function () {
-    $patient = User::newFactory()->patient()->patientInformation()->create();
-    $submission = Submission::newFactory()->create(['patient_id' => $patient->id]);
-
+test('successfully accepted submission', function () {
     $user = User::newFactory()->doctor()->create();
     $this->actingAs($user);
 
-    $response = $this->putJson(route('submissions.accept', $submission->id), []);
+    $response = $this->postJson(route('submissions.accept', $this->pendingSubmission->id));
     $response->assertSuccessful();
 
-    $updatedSubmission = Submission::findOrFail($submission->id);
+    $updatedSubmission = Submission::findOrFail($this->pendingSubmission->id);
     $this->assertEquals(SubmissionStatuses::InProgress, $updatedSubmission->status);
+    $this->assertEquals($user->id, $updatedSubmission->doctor_id);
 });
