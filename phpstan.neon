@@ -15,3 +15,4 @@ parameters:
         - '#^Illuminate\\Support\\Facades\\Auth facade should not be used\.$#'
         - '#^Illuminate\\Support\\Facades\\Hash facade should not be used\.$#'
         - '#^Illuminate\\Support\\Facades\\Broadcast facade should not be used\.$#'
+        - '#^Illuminate\\Support\\Facades\\Storage facade should not be used\.$#'
