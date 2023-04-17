@@ -16,8 +16,12 @@ class UploadPrescriptionRequest extends FormRequest
     public function authorize(): bool
     {
         $submissionIsPending = $this->submission->status == SubmissionStatuses::Pending;
-        $doctorIsAssignedToThisSubmission = $this->submission->doctor_id == $this->user()->id;
-        return ! $submissionIsPending && $doctorIsAssignedToThisSubmission;
+
+        if ($submissionIsPending) {
+            return false;
+        }
+
+        return $this->submission->doctor_id == $this->user()->id;
     }
 
     /**
