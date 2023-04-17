@@ -27,7 +27,7 @@ beforeEach(function () {
     ];
 });
 
-test('it throws an exception if not in progress submission', function () {
+it('throws an exception if not in progress submission', function () {
     $response = $this->actingAs($this->doctor)->postJson(
         route('submissions.prescriptions.store', $this->pendingSubmission),
         $this->validPrescription
@@ -35,7 +35,7 @@ test('it throws an exception if not in progress submission', function () {
     $response->assertStatus(Response::HTTP_FORBIDDEN);
 });
 
-test('it throws an exception if logged doctor is not assigned to the submission', function () {
+it('throws an exception if logged doctor is not assigned to the submission', function () {
     $response = $this->actingAs($this->otherDoctor)->postJson(
         route('submissions.prescriptions.store', $this->inProgressSubmission),
         $this->validPrescription
@@ -51,7 +51,7 @@ test('patient cant upload prescription', function () {
     $response->assertStatus(Response::HTTP_FORBIDDEN);
 });
 
-test('it throws an exception if file extension is not .txt', function () {
+it('throws an exception if file extension is not .txt', function () {
     $response = $this->actingAs($this->doctor)->postJson(
         route('submissions.prescriptions.store', $this->inProgressSubmission),
         $this->invalidFileExtension
@@ -59,7 +59,7 @@ test('it throws an exception if file extension is not .txt', function () {
     $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 });
 
-test('it uploads prescription successfully', function () {
+it('uploads prescription successfully', function () {
     Storage::fake();
 
     $response = $this->actingAs($this->doctor)->postJson(
