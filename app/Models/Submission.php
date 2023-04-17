@@ -11,6 +11,33 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * App\Models\Submission
+ *
+ * @property int $id
+ * @property string $title
+ * @property string $symptoms
+ * @property SubmissionStatuses $status
+ * @property int|null $doctor_id
+ * @property int $patient_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User|null $doctor
+ * @property-read \App\Models\User $patient
+ * @property-read \App\Models\Prescription|null $prescription
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission whereDoctorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission wherePatientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission whereSymptoms($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Submission whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Submission extends Model
 {
     /**
