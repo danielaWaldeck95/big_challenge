@@ -11,6 +11,7 @@ use App\Http\Controllers\StoreSubmissionController;
 use App\Http\Controllers\GetSubmissionsController;
 use App\Http\Controllers\GetOneSubmissionController;
 use App\Http\Controllers\AcceptSubmissionController;
+use App\Http\Controllers\UploadPrescriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,13 +31,16 @@ Route::post('/login', LoginController::class)->name('login');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) { return $request->user(); });
     Route::post('/logout', LogoutController::class)->name('logout');
-    Route::prefix('/submissions')->group(function () {
-        Route::post('/', StoreSubmissionController::class)->name('submissions.store');
-        Route::get('/', GetSubmissionsController::class)->name('submissions.index');
+    Route::name('submissions.')->prefix('/submissions')->group(function () {
+        Route::post('/', StoreSubmissionController::class)->name('store');
+        Route::get('/', GetSubmissionsController::class)->name('index');
         Route::prefix('/{submission}')->group(function () {
-            Route::get('/', GetOneSubmissionController::class)->name('submissions.show');
-            Route::group(['middleware' => ['role:' . UserTypes::DOCTOR->value]], function () {
-                Route::post('/accept', AcceptSubmissionController::class)->name('submissions.accept');
+            Route::get('/', GetOneSubmissionController::class)->name('show');
+            Route::middleware(['role:' . UserTypes::DOCTOR->value])->group(function () {
+                Route::post('/accept', AcceptSubmissionController::class)->name('accept');
+                Route::name('prescriptions.')->prefix('/prescriptions')->group(function () {
+                    Route::post('/', UploadPrescriptionController::class)->name('store');
+                });
             });
         });
 });
