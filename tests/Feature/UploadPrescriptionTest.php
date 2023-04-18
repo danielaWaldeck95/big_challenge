@@ -69,5 +69,7 @@ it('uploads prescription successfully', function () {
 
     $response->assertSuccessful();
 
-    Storage::assertExists(config('filesystems.disks.do_spaces.folder') . '/' . $this->inProgressSubmission->id . '.txt');
+    Storage::assertExists(
+        config('filesystems.disks.do_spaces.folder') . '/' . $this->inProgressSubmission->id . '.txt'
+    );
 });
