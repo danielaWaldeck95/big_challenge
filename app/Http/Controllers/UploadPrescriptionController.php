@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Enums\SubmissionStatuses;
 use App\Http\Requests\UploadPrescriptionRequest;
 use App\Models\Submission;
+use App\Notifications\PrescriptionUploaded;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
@@ -32,6 +33,8 @@ class UploadPrescriptionController extends Controller
 
         $submission->status = SubmissionStatuses::Done;
         $submission->save();
+
+        $submission->patient->notify(new PrescriptionUploaded($submission));
 
         return response()->json($submission);
     }
