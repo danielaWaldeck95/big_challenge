@@ -3,6 +3,7 @@
 use App\Enums\SubmissionStatuses;
 use App\Models\Submission;
 use App\Models\User;
+use App\Notifications\PrescriptionUploaded;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
@@ -61,6 +62,7 @@ it('throws an exception if file extension is not .txt', function () {
 
 it('uploads prescription successfully', function () {
     Storage::fake();
+    Notification::fake();
 
     $response = $this->actingAs($this->doctor)->postJson(
         route('submissions.prescriptions.store', $this->inProgressSubmission),
@@ -68,6 +70,11 @@ it('uploads prescription successfully', function () {
     );
 
     $response->assertSuccessful();
+
+    Notification::assertSentTo(
+        $this->inProgressSubmission->patient,
+        PrescriptionUploaded::class
+    );
 
     Storage::assertExists(
         config('filesystems.disks.do_spaces.folder') . '/' . $this->inProgressSubmission->id . '.txt'
