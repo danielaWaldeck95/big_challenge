@@ -14,7 +14,7 @@ class AcceptSubmissionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return ! $this->submission->doctor_id;;
+        return ! $this->submission->doctor_id;
     }
 
     /**
