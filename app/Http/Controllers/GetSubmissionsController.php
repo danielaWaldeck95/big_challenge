@@ -17,7 +17,14 @@ class GetSubmissionsController
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $submissions = $request->user()->submissions()->paginate();
+        $status = $request->input('status');
+        $submissions = $request
+            ->user()
+            ->submissions()
+            ->when($status, function ($query, $status) {
+                return $query->where('status', $status);
+            })
+            ->paginate();
 
         return response()->json($submissions);
     }
