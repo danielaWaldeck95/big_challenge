@@ -3,7 +3,6 @@
 use App\Enums\SubmissionStatuses;
 use App\Models\Submission;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
