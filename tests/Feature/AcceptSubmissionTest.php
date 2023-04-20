@@ -4,14 +4,8 @@ use App\Enums\SubmissionStatuses;
 use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
 
 uses(RefreshDatabase::class);
-
-dataset('invalid-users', [
-    ['patient', Response::HTTP_FORBIDDEN],
-    [null, Response::HTTP_UNAUTHORIZED],
-]);
 
 beforeEach(function () {
     $this->patient = User::newFactory()->patient()->patientInformation()->create();
