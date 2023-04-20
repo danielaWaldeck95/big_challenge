@@ -31,7 +31,6 @@ class UploadPrescriptionController extends Controller
             'size' => $request->file('prescription')->getSize()
         ]);
 
-        $submission->status = SubmissionStatuses::Done;
         $submission->save();
 
         $submission->patient->notify(new PrescriptionUploaded($submission));
