@@ -10,6 +10,7 @@ use App\Http\Controllers\UpdatePatientController;
 use App\Http\Controllers\StoreSubmissionController;
 use App\Http\Controllers\GetSubmissionsController;
 use App\Http\Controllers\GetOneSubmissionController;
+use App\Http\Controllers\FinishSubmissionController;
 use App\Http\Controllers\AcceptSubmissionController;
 use App\Http\Controllers\UploadPrescriptionController;
 
@@ -38,6 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('/', GetOneSubmissionController::class)->name('show');
             Route::middleware(['role:' . UserTypes::DOCTOR->value])->group(function () {
                 Route::post('/accept', AcceptSubmissionController::class)->name('accept');
+                Route::post('/finish', FinishSubmissionController::class)->name('finish');
                 Route::name('prescriptions.')->prefix('/prescriptions')->group(function () {
                     Route::post('/', UploadPrescriptionController::class)->name('store');
                 });
