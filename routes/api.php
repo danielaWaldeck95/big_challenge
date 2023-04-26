@@ -33,7 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) { return $request->user(); });
     Route::post('/logout', LogoutController::class)->name('logout');
 
-    Route::put('/update', UpdatePatientController::class)->name('patient.update');
+    Route::put('/users/update', UpdatePatientController::class)->name('patient.update');
 
     Route::name('submissions.')->prefix('/submissions')->group(function () {
         Route::post('/', StoreSubmissionController::class)->name('store');
