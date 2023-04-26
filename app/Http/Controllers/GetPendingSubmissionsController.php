@@ -6,8 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\SubmissionStatuses;
 use App\Models\Submission;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetPendingSubmissionsController
 {
@@ -17,10 +16,8 @@ class GetPendingSubmissionsController
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(): LengthAwarePaginator
     {
-        $submissions = Submission::where('status', SubmissionStatuses::Pending)->paginate();
-
-        return response()->json($submissions);
+        return Submission::where('status', SubmissionStatuses::Pending)->paginate();
     }
 }
